@@ -1,20 +1,25 @@
 ﻿using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Web.UI;
-using MeowtiVy.Controllers;
-using System.Web.UI.WebControls;
 using MeowtiVy.Controller;
+using System.Web.UI.WebControls;
+using MeowtiVy.Controllers;
+using MeowtiVy.Database;
 using MeowtiVy.Models;
+using MeowtiVy.Repositories;
+using System.Linq;
 
 namespace MeowtiVy.Views
 {
     public partial class ProductPage : System.Web.UI.Page
     {
         private readonly ProductController _productController;
+        private readonly OrderController _orderController;
 
         public ProductPage()
         {
             _productController = new ProductController();
+            _orderController = new OrderController();
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -22,12 +27,10 @@ namespace MeowtiVy.Views
             if (Session["Role"] == null || Session["Role"].ToString() != "Admin")
             {
                 AddProductBtn.Visible = false;
-                ProductForm.Visible = false;
             }
             else
             {
                 AddProductBtn.Visible = true;
-                ProductForm.Visible = false;
             }
 
             if (!IsPostBack)
@@ -40,21 +43,13 @@ namespace MeowtiVy.Views
 
         protected void AddProductBtn_Click(object sender, EventArgs e)
         {
-            ProductForm.Visible = true; 
+            Response.Redirect("AddProductPage.aspx");
         }
 
         protected void ProductGridView_RowEditing(object sender, GridViewEditEventArgs e)
         {
             int productId = Convert.ToInt32(ProductGridView.DataKeys[e.NewEditIndex].Value);
-            Product product = _productController.GetAllProducts().FirstOrDefault(p => p.Id == productId);
-            if (product != null)
-            {
-                ProductNameTextBox.Text = product.Name;
-                ProductPriceTextBox.Text = product.Price.ToString();
-                ProductStockQuantityTextBox.Text = product.StockQuantity.ToString();
-                ProductForm.Visible = true;
-                ViewState["ProductId"] = productId;
-            }
+            Response.Redirect("EditProductPage.aspx?ProductId=" + productId);
         }
 
         protected void ProductGridView_RowDeleting(object sender, GridViewDeleteEventArgs e)
@@ -64,22 +59,32 @@ namespace MeowtiVy.Views
             Response.Redirect("ProductPage.aspx");
         }
 
-        protected void SaveProductBtn_Click(object sender, EventArgs e)
+        protected void CheckoutButton_Click(object sender, EventArgs e)
         {
-            string productName = ProductNameTextBox.Text;
-            decimal productPrice = Convert.ToDecimal(ProductPriceTextBox.Text);
-            int productStockQuantity = Convert.ToInt32(ProductStockQuantityTextBox.Text);
+            int productId = Convert.ToInt32((sender as Button).CommandArgument);
+            var quantityTextBox = (TextBox)((Button)sender).Parent.FindControl("QuantityTextBox");
+            int quantity = Convert.ToInt32(quantityTextBox.Text);
 
-            if (!string.IsNullOrEmpty(productName) && productPrice > 0 && productStockQuantity >= 0)
+            if (Session["Username"] != null)
             {
-                _productController.AddProduct(productName, productPrice, productStockQuantity);
-                ProductForm.Visible = false;
-                Response.Redirect("ProductPage.aspx");
+                string username = Session["Username"].ToString();
+                int userId = GetUserIdByUsername(username);
+
+                _orderController.PlaceOrder(userId, new List<int> { productId }, new List<int> { quantity });
+
+                SuccessMessageLabel.Text = "Your order has been placed successfully!";
+                SuccessMessageLabel.Visible = true;
             }
             else
             {
-                ErrorLabel.Text = "Please ensure all fields are filled correctly.";
+                Response.Redirect("LoginPage.aspx");
             }
+        }
+
+        private int GetUserIdByUsername(string username)
+        {
+            var user = new UserRepository(new DatabaseContext()).GetUserByUsername(username);
+            return user != null ? user.Id : 0;
         }
     }
 }

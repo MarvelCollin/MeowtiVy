@@ -35,6 +35,11 @@ namespace MeowtiVy.Handlers
             for (int i = 0; i < productIds.Count; i++)
             {
                 var product = _productRepository.GetProductById(productIds[i]);
+                if (product == null)
+                {
+                    throw new Exception($"Product with ID {productIds[i]} does not exist.");
+                }
+
                 decimal price = product.Price;
                 int quantity = quantities[i];
                 decimal total = price * quantity;
@@ -43,18 +48,20 @@ namespace MeowtiVy.Handlers
 
                 var orderDetail = new OrderDetail
                 {
-                    OrderId = order.Id,
+                    OrderId = order.Id, 
                     ProductId = productIds[i],
                     Quantity = quantity,
                     Price = price,
                     Total = total
                 };
 
-                _orderDetailRepository.AddOrderDetail(orderDetail);  
+                _orderDetailRepository.AddOrderDetail(orderDetail);
             }
 
             order.TotalAmount = totalAmount;
+
             _orderRepository.AddOrder(order);
         }
+
     }
 }

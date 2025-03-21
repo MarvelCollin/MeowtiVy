@@ -2,6 +2,7 @@
 using System.Web.UI;
 using MeowtiVy.Database;
 using MeowtiVy.Handlers;
+using MeowtiVy.Models;
 using MeowtiVy.Repositories;
 
 namespace MeowtiVy.Controllers
@@ -38,6 +39,11 @@ namespace MeowtiVy.Controllers
         public void RegisterUser(string username, string password)
         {
             _userHandler.RegisterUser(username, password, "User");
+        }
+
+        public User GetUserByUsername(string username)
+        {
+            return _userRepository.GetUserByUsername(username); 
         }
     }
 }

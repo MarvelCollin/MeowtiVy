@@ -33,15 +33,6 @@ namespace MeowtiVy.Views
         protected global::System.Web.UI.WebControls.GridView OrderGridView;
 
         /// <summary>
-        /// PlaceOrderBtn control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button PlaceOrderBtn;
-
-        /// <summary>
         /// ErrorLabel control.
         /// </summary>
         /// <remarks>

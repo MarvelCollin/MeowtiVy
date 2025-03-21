@@ -27,5 +27,9 @@ namespace MeowtiVy.Repositories
             return _context.Orders.FirstOrDefault(o => o.Id == orderId);
         }
 
+        public IEnumerable<Order> GetOrdersByUserId(int userId)
+        {
+            return _context.Orders.Where(o => o.UserId == userId).ToList();
+        }
     }
 }

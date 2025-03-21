@@ -38,5 +38,16 @@ namespace MeowtiVy.Controller
         {
             _productHandler.DeleteProduct(productId);
         }
+
+        public Product GetProductById(int productId)
+        {
+            var product = _productHandler.GetAllProducts().FirstOrDefault(p => p.Id == productId);
+            if (product == null)
+            {
+                throw new Exception($"Product with ID {productId} does not exist.");
+            }
+            return product;
+        }
+
     }
 }

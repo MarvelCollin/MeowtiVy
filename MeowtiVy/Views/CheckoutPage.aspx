@@ -8,32 +8,20 @@
 <body>
     <form id="form1" runat="server">
         <div>
-            <h2>Checkout</h2>
-            <br />
-
-            <asp:GridView ID="OrderGridView" runat="server" AutoGenerateColumns="False" EmptyDataText="No products in order." 
-                OnRowEditing="OrderGridView_RowEditing" OnRowDeleting="OrderGridView_RowDeleting">
+            <h2>Your Orders</h2>
+            <asp:GridView ID="OrderGridView" runat="server" AutoGenerateColumns="False" EmptyDataText="No orders found.">
                 <Columns>
-                    <asp:BoundField DataField="ProductName" HeaderText="Product Name" SortExpression="ProductName" />
-                    <asp:BoundField DataField="Price" HeaderText="Price" SortExpression="Price" />
-                    <asp:BoundField DataField="Quantity" HeaderText="Quantity" SortExpression="Quantity" />
-                    <asp:BoundField DataField="Total" HeaderText="Total" SortExpression="Total" />
-                    <asp:TemplateField>
-                        <ItemTemplate>
-                            <asp:TextBox ID="QuantityTextBox" runat="server" Text='<%# Eval("Quantity") %>' />
-                        </ItemTemplate>
-                    </asp:TemplateField>
-                    <asp:CommandField ShowEditButton="True" ShowDeleteButton="True" />
+                    <asp:BoundField DataField="Id" HeaderText="Order ID" SortExpression="Id" />
+                    <asp:BoundField DataField="TotalAmount" HeaderText="Total Amount" SortExpression="TotalAmount" />
+                    <asp:BoundField DataField="OrderDate" HeaderText="Order Date" SortExpression="OrderDate" />
+                    <asp:BoundField DataField="Status" HeaderText="Status" SortExpression="Status" />
                 </Columns>
             </asp:GridView>
 
-
-            <br />
-
-            <asp:Button ID="PlaceOrderBtn" runat="server" Text="Place Order" OnClick="PlaceOrderBtn_Click" />
             <br />
             <asp:Label ID="ErrorLabel" runat="server" ForeColor="Red" />
-            <br /><br />
+
+            <br />
             <a href="HomePage.aspx">Back to Home</a> |
             <a href="ProductPage.aspx">Go to Products</a>
         </div>
