@@ -21,6 +21,9 @@
             <asp:Button ID="RegisterBtn" runat="server" Text="Register" OnClick="RegisterBtn_Click" />
             
             <asp:Label ID="ErrorLabel" runat="server" ForeColor="Red" />
+            
+            <br /><br />
+            <a href="LoginPage.aspx">Already have an account? Login here</a>
         </div>
     </form>
 </body>

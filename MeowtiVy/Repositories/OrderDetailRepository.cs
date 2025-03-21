@@ -21,5 +21,10 @@ namespace MeowtiVy.Repositories
             _context.OrderDetails.Add(orderDetail);
             _context.SaveChanges();
         }
+
+        public IEnumerable<OrderDetail> GetOrderDetailsByOrderId(int orderId)
+        {
+            return _context.OrderDetails.Where(od => od.OrderId == orderId).ToList();
+        }
     }
 }

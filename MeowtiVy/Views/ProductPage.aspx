@@ -13,6 +13,21 @@
             <asp:Button ID="AddProductBtn" runat="server" Text="Add Product" OnClick="AddProductBtn_Click" Visible="false" />
             <br /><br />
 
+            <asp:Panel ID="ProductForm" runat="server" Visible="false">
+                <h3>Add New Product</h3>
+                <label for="ProductNameTextBox">Product Name:</label>
+                <asp:TextBox ID="ProductNameTextBox" runat="server" Required="True" />
+                <br /><br />
+                <label for="ProductPriceTextBox">Price:</label>
+                <asp:TextBox ID="ProductPriceTextBox" runat="server" TextMode="Number" Required="True" />
+                <br /><br />
+                <label for="ProductStockQuantityTextBox">Stock Quantity:</label>
+                <asp:TextBox ID="ProductStockQuantityTextBox" runat="server" TextMode="Number" Required="True" />
+                <br /><br />
+                <asp:Button ID="SaveProductBtn" runat="server" Text="Save Product" OnClick="SaveProductBtn_Click" />
+                <asp:Label ID="ErrorLabel" runat="server" ForeColor="Red" />
+            </asp:Panel>
+
             <asp:GridView ID="ProductGridView" runat="server" AutoGenerateColumns="False" EmptyDataText="No products available." 
                 OnRowEditing="ProductGridView_RowEditing" OnRowDeleting="ProductGridView_RowDeleting">
                 <Columns>

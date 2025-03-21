@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Web.UI;
 using MeowtiVy.Controllers;
 
@@ -26,6 +27,8 @@ namespace MeowtiVy.Views
 
             if (isValidUser)
             {
+                Session["Username"] = username;
+                Debug.WriteLine("Bisa masuk bbg");
                 Response.Redirect("HomePage.aspx");  
             }
             else

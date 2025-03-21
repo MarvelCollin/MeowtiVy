@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Web.UI;
-using MeowtiVy.Controller;
-using System.Web.UI.WebControls;
 using MeowtiVy.Controllers;
+using System.Web.UI.WebControls;
+using MeowtiVy.Controller;
+using MeowtiVy.Models;
 
 namespace MeowtiVy.Views
 {
@@ -21,10 +22,12 @@ namespace MeowtiVy.Views
             if (Session["Role"] == null || Session["Role"].ToString() != "Admin")
             {
                 AddProductBtn.Visible = false;
+                ProductForm.Visible = false;
             }
             else
             {
                 AddProductBtn.Visible = true;
+                ProductForm.Visible = false;
             }
 
             if (!IsPostBack)
@@ -37,20 +40,46 @@ namespace MeowtiVy.Views
 
         protected void AddProductBtn_Click(object sender, EventArgs e)
         {
-            Response.Redirect("AddProductPage.aspx");
+            ProductForm.Visible = true; 
         }
 
         protected void ProductGridView_RowEditing(object sender, GridViewEditEventArgs e)
         {
             int productId = Convert.ToInt32(ProductGridView.DataKeys[e.NewEditIndex].Value);
-            Response.Redirect("EditProductPage.aspx?ProductId=" + productId);
+            Product product = _productController.GetAllProducts().FirstOrDefault(p => p.Id == productId);
+            if (product != null)
+            {
+                ProductNameTextBox.Text = product.Name;
+                ProductPriceTextBox.Text = product.Price.ToString();
+                ProductStockQuantityTextBox.Text = product.StockQuantity.ToString();
+                ProductForm.Visible = true;
+                ViewState["ProductId"] = productId;
+            }
         }
 
         protected void ProductGridView_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
             int productId = Convert.ToInt32(ProductGridView.DataKeys[e.RowIndex].Value);
             _productController.DeleteProduct(productId);
-            Response.Redirect("ProductPage.aspx");  
+            Response.Redirect("ProductPage.aspx");
+        }
+
+        protected void SaveProductBtn_Click(object sender, EventArgs e)
+        {
+            string productName = ProductNameTextBox.Text;
+            decimal productPrice = Convert.ToDecimal(ProductPriceTextBox.Text);
+            int productStockQuantity = Convert.ToInt32(ProductStockQuantityTextBox.Text);
+
+            if (!string.IsNullOrEmpty(productName) && productPrice > 0 && productStockQuantity >= 0)
+            {
+                _productController.AddProduct(productName, productPrice, productStockQuantity);
+                ProductForm.Visible = false;
+                Response.Redirect("ProductPage.aspx");
+            }
+            else
+            {
+                ErrorLabel.Text = "Please ensure all fields are filled correctly.";
+            }
         }
     }
 }

@@ -78,11 +78,9 @@
     <Content Include="App_Data\Database1_log.ldf">
       <DependentUpon>Database1.mdf</DependentUpon>
     </Content>
-    <Content Include="Views\AddProductPage.aspx" />
     <Content Include="Views\CheckoutPage.aspx" />
     <Content Include="Views\HomePage.aspx" />
     <Content Include="Views\LoginPage.aspx" />
-    <Content Include="Views\ProductListPage.aspx" />
     <Content Include="Views\ProductPage.aspx" />
     <Content Include="Views\RegisterPage.aspx" />
     <Content Include="Web.config" />
@@ -112,13 +110,6 @@
     <Compile Include="Repositories\OrderRepository.cs" />
     <Compile Include="Repositories\ProductRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
-    <Compile Include="Views\AddProductPage.aspx.cs">
-      <DependentUpon>AddProductPage.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Views\AddProductPage.aspx.designer.cs">
-      <DependentUpon>AddProductPage.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Views\CheckoutPage.aspx.cs">
       <DependentUpon>CheckoutPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -139,13 +130,6 @@
     </Compile>
     <Compile Include="Views\LoginPage.aspx.designer.cs">
       <DependentUpon>LoginPage.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ProductListPage.aspx.cs">
-      <DependentUpon>ProductListPage.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Views\ProductListPage.aspx.designer.cs">
-      <DependentUpon>ProductListPage.aspx</DependentUpon>
     </Compile>
     <Compile Include="Views\ProductPage.aspx.cs">
       <DependentUpon>ProductPage.aspx</DependentUpon>
